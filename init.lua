@@ -622,6 +622,24 @@ require('lazy').setup({
 
         stylua = {}, -- Used to format Lua code
 
+        bashls = {
+          filetypes = { 'sh', 'bash' },
+          root_markers = { '.terraform', '.git' },
+          cmd = { 'tofu-ls', 'serve' },
+        },
+
+        tofu_ls = {
+          filetypes = { 'terraform', 'terraform-vars' },
+          settings = {
+            bashIde = {
+              -- Enable shellcheck integration
+              shellcheckPath = 'shellcheck',
+              -- Glob pattern for files to analyse
+              globPattern = '*@(.sh|.inc|.bash|.command)',
+            },
+          },
+        },
+
         -- Special Lua Config, as recommended by neovim help docs
         lua_ls = {
           on_init = function(client)

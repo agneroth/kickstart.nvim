@@ -692,6 +692,54 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
+
+    bashls = {
+      filetypes = { 'sh', 'bash' },
+      cmd = { 'bash-language-server', 'start' },
+    },
+
+    tofu_ls = {
+      filetypes = { 'terraform', 'terraform-vars' },
+      settings = {
+        bashIde = {
+          -- Enable shellcheck integration
+          shellcheckPath = 'shellcheck',
+          -- Glob pattern for files to analyse
+          globPattern = '*@(.sh|.inc|.bash|.command)',
+        },
+      },
+    },
+
+    -- https://stackoverflow.com/questions/69001401/yaml-language-server-and-nvim-configuration
+    yamlls = {
+      settings = {
+        yaml = {
+          completion = true,
+          schemaStore = {
+            enable = true,
+          },
+          schemas = {
+            ["https://json.schemastore.org/kustomization.json"] = "kustomization.yaml",
+            kubernetes = "*.yaml"
+          }
+
+        },
+      },
+    },
+
+    helm_ls = {},
+
+    -- python
+    pylsp = {
+      -- plugins = {
+      --   ruff = {
+      --     enabled = true,
+      --     formatting = true,
+      --   },
+      -- },
+    },
+    -- ruff = {},
+
     -- clangd = {},
     -- gopls = {},
     -- pyright = {},
@@ -920,8 +968,9 @@ do
 
     -- Enable treesitter based folds
     -- For more info on folds see `:help folds`
-    -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-    -- vim.wo.foldmethod = 'expr'
+    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo.foldmethod = 'expr'
+    vim.wo.foldlevel = 99
 
     -- Check if treesitter indentation is available for this language, and if so enable it
     -- in case there is no indent query, the indentexpr will fallback to the vim's built in one
@@ -969,17 +1018,17 @@ do
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug'
-  -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  require 'kickstart.plugins.debug'
+  require 'kickstart.plugins.indent_line'
+  require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.autopairs'
+  require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- require 'custom.plugins'
+  require 'custom.plugins'
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
